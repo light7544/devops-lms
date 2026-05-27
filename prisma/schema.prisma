@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  name      String
+  avatar    String?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  progress  Progress[]
+  bookmarks Bookmark[]
+}
+
+model Progress {
+  id          String    @id @default(cuid())
+  profileId   String
+  trackId     String
+  moduleId    String
+  lessonId    String
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, trackId, moduleId, lessonId])
+  @@index([profileId])
+  @@index([trackId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  profileId String
+  trackId   String
+  moduleId  String
+  lessonId  String
+  createdAt DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, trackId, moduleId, lessonId])
+}

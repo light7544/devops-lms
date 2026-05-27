@@ -1,0 +1,285 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Code", monospace;
+
+  --color-track-git: #f05033;
+  --color-track-actions: #2088ff;
+  --color-track-python: #3776ab;
+  --color-track-docker: #2496ed;
+
+  --color-surface-1: #09090b;
+  --color-surface-2: #18181b;
+  --color-surface-3: #27272a;
+  --color-surface-4: #3f3f46;
+
+  --color-border: #3f3f46;
+  --color-border-subtle: #27272a;
+}
+
+:root {
+  color-scheme: dark;
+  --sidebar-width: 260px;
+}
+
+/* Light theme — inverts the zinc scale so all bg-zinc-* and text-zinc-* utilities adapt */
+html.light {
+  color-scheme: light;
+  --color-zinc-950: #ffffff;
+  --color-zinc-900: #f4f4f5;
+  --color-zinc-800: #e4e4e7;
+  --color-zinc-700: #d4d4d8;
+  --color-zinc-600: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-400: #52525b;
+  --color-zinc-300: #3f3f46;
+  --color-zinc-200: #27272a;
+  --color-zinc-100: #18181b;
+  --color-zinc-50: #09090b;
+  /* Make text-white adapt so headings/labels on light backgrounds become dark */
+  --color-white: #09090b;
+}
+
+/* Preserve white text inside elements that have a colored background */
+html.light [class*="from-blue"],
+html.light [class*="from-violet"],
+html.light [class*="bg-blue"],
+html.light [class*="bg-violet"],
+html.light [class*="bg-red"],
+html.light [class*="bg-green"],
+html.light [class*="bg-amber"],
+html.light [class*="bg-gradient"] {
+  --color-white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-zinc-950);
+  color: var(--color-zinc-50);
+  font-family: var(--font-sans, ui-sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-zinc-700);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-zinc-600);
+}
+
+/* Prose customizations for lesson content */
+.prose {
+  --tw-prose-body: #a1a1aa;
+  --tw-prose-headings: #fafafa;
+  --tw-prose-lead: #a1a1aa;
+  --tw-prose-links: #60a5fa;
+  --tw-prose-bold: #fafafa;
+  --tw-prose-counters: #71717a;
+  --tw-prose-bullets: #52525b;
+  --tw-prose-hr: #27272a;
+  --tw-prose-quotes: #e4e4e7;
+  --tw-prose-quote-borders: #3f3f46;
+  --tw-prose-captions: #71717a;
+  --tw-prose-code: #f4f4f5;
+  --tw-prose-pre-code: #e4e4e7;
+  --tw-prose-pre-bg: #18181b;
+  --tw-prose-th-borders: #3f3f46;
+  --tw-prose-td-borders: #27272a;
+}
+
+.prose pre {
+  background: #111113 !important;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+}
+
+.prose code:not(pre code) {
+  background: #27272a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.875em;
+  color: #fb923c;
+}
+
+/* Light mode prose overrides */
+html.light .prose {
+  --tw-prose-body: #3f3f46;
+  --tw-prose-headings: #09090b;
+  --tw-prose-lead: #52525b;
+  --tw-prose-links: #2563eb;
+  --tw-prose-bold: #09090b;
+  --tw-prose-counters: #71717a;
+  --tw-prose-bullets: #a1a1aa;
+  --tw-prose-hr: #e4e4e7;
+  --tw-prose-quotes: #18181b;
+  --tw-prose-quote-borders: #d4d4d8;
+  --tw-prose-captions: #71717a;
+  --tw-prose-code: #18181b;
+  --tw-prose-pre-code: #e4e4e7;
+  --tw-prose-pre-bg: #18181b;
+  --tw-prose-th-borders: #d4d4d8;
+  --tw-prose-td-borders: #e4e4e7;
+}
+
+html.light .prose pre {
+  background: #1e1e1e !important;
+  border-color: #d4d4d8;
+}
+
+html.light .prose code:not(pre code) {
+  background: #e2e8f0;
+  color: #b45309;
+  border: 1px solid #cbd5e1;
+}
+
+/* Inline code rendered via dangerouslySetInnerHTML — fix background in light mode */
+html.light code.text-zinc-200 {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+html.light .glass {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animate in */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.4s ease both;
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
+}
+
+/* Focus ring */
+.focus-ring:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Track-specific gradient backgrounds */
+.track-git-gradient {
+  background: linear-gradient(135deg, rgba(240, 80, 51, 0.12) 0%, rgba(240, 80, 51, 0.04) 100%);
+}
+.track-actions-gradient {
+  background: linear-gradient(135deg, rgba(32, 136, 255, 0.12) 0%, rgba(32, 136, 255, 0.04) 100%);
+}
+.track-python-gradient {
+  background: linear-gradient(135deg, rgba(55, 118, 171, 0.12) 0%, rgba(55, 118, 171, 0.04) 100%);
+}
+.track-docker-gradient {
+  background: linear-gradient(135deg, rgba(36, 150, 237, 0.12) 0%, rgba(36, 150, 237, 0.04) 100%);
+}
+.track-linux-gradient {
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(225, 29, 72, 0.04) 100%);
+}
+.track-linux-os-gradient {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(249, 115, 22, 0.04) 100%);
+}
+.track-terraform-gradient {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(124, 58, 237, 0.04) 100%);
+}
+.track-devsecops-gradient {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.12) 0%, rgba(220, 38, 38, 0.04) 100%);
+}
+.track-aws-gradient {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0.04) 100%);
+}
+.track-prompt-gradient {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0.04) 100%);
+}
+.track-kubernetes-gradient {
+  background: linear-gradient(135deg, rgba(50, 108, 229, 0.12) 0%, rgba(50, 108, 229, 0.04) 100%);
+}
+.track-troubleshooting-gradient {
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.12) 0%, rgba(234, 88, 12, 0.04) 100%);
+}
+.track-compliance-gradient {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 100%);
+}
+.track-web-technology-gradient {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(14, 165, 233, 0.04) 100%);
+}
+.track-scripting-gradient {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0.04) 100%);
+}
+.track-ssh-protocols-gradient {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.12) 0%, rgba(20, 184, 166, 0.04) 100%);
+}
+.track-databases-gradient {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0.04) 100%);
+}
+.track-sdlc-gradient {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0.04) 100%);
+}
+.track-golang-gradient {
+  background: linear-gradient(135deg, rgba(0, 172, 215, 0.12) 0%, rgba(0, 172, 215, 0.04) 100%);
+}
+.track-gitlab-gradient {
+  background: linear-gradient(135deg, rgba(252, 109, 38, 0.12) 0%, rgba(252, 109, 38, 0.04) 100%);
+}
+
+.track-cybersecurity-gradient {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.04) 100%);
+}
